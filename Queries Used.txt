@@ -1,0 +1,166 @@
+-- admin_dashboard.php
+
+-- Auto-delete expired events
+SELECT * FROM events WHERE event_date < ?
+INSERT INTO deleted_events (event_id, title, event_date, location, description, created_by, deleted_by) VALUES (?, ?, ?, ?, ?, ?, ?)
+DELETE FROM events WHERE id = ?
+
+-- Fetch all blogs
+SELECT blogs.*, users.name as user_name FROM blogs LEFT JOIN users ON blogs.user_id = users.id ORDER BY blogs.created_at DESC
+
+-- Fetch all events
+SELECT * FROM events ORDER BY event_date ASC
+
+-- Fetch deleted blogs
+SELECT deleted_blogs.*, users.name as user_name FROM deleted_blogs LEFT JOIN users ON deleted_blogs.user_id = users.id ORDER BY deleted_blogs.deleted_at DESC
+
+-- Fetch deleted events
+SELECT * FROM deleted_events ORDER BY deleted_at DESC
+
+-- Fetch all tutorials
+SELECT tutorials.*, users.name as creator FROM tutorials LEFT JOIN users ON tutorials.created_by = users.id ORDER BY tutorials.created_at DESC
+
+-- Fetch deleted tutorials
+SELECT deleted_tutorials.*, users.name as creator FROM deleted_tutorials LEFT JOIN users ON deleted_tutorials.created_by = users.id ORDER BY deleted_tutorials.deleted_at DESC
+
+-- Fetch all contacts/messages
+SELECT contacts.*, users.name as user_name FROM contacts LEFT JOIN users ON contacts.user_id = users.id ORDER BY contacts.created_at DESC
+
+-- Search blogs
+SELECT blogs.*, users.name as user_name FROM blogs LEFT JOIN users ON blogs.user_id = users.id WHERE blogs.title LIKE ? OR blogs.content LIKE ? ORDER BY blogs.created_at DESC
+
+-- Search events
+SELECT * FROM events WHERE title LIKE ? OR description LIKE ? ORDER BY event_date ASC
+
+-- Search tutorials
+SELECT tutorials.*, users.name as creator FROM tutorials LEFT JOIN users ON tutorials.created_by = users.id WHERE tutorials.title LIKE ? OR tutorials.description LIKE ? ORDER BY tutorials.created_at DESC
+
+-- Search deleted blogs
+SELECT deleted_blogs.*, users.name as user_name FROM deleted_blogs LEFT JOIN users ON deleted_blogs.user_id = users.id WHERE deleted_blogs.title LIKE ? OR deleted_blogs.content LIKE ? ORDER BY deleted_blogs.deleted_at DESC
+
+-- Search deleted events
+SELECT * FROM deleted_events WHERE title LIKE ? OR description LIKE ? ORDER BY deleted_at DESC
+
+-- Search deleted tutorials
+SELECT deleted_tutorials.*, users.name as creator FROM deleted_tutorials LEFT JOIN users ON deleted_tutorials.created_by = users.id WHERE deleted_tutorials.title LIKE ? OR deleted_tutorials.description LIKE ? ORDER BY deleted_tutorials.deleted_at DESC
+
+-- Search contacts/messages
+SELECT contacts.*, users.name as user_name FROM contacts LEFT JOIN users ON contacts.user_id = users.id WHERE contacts.email LIKE ? OR contacts.subject LIKE ? OR contacts.message LIKE ? ORDER BY contacts.created_at DESC
+
+-- admin_blog_add.php / blog_add.php
+
+INSERT INTO blogs (title, content, link, author, image, user_id) VALUES (?, ?, ?, ?, ?, ?)
+
+-- admin_blog_delete.php / blog_delete.php
+
+SELECT * FROM blogs WHERE id = ?
+INSERT INTO deleted_blogs (blog_id, title, content, link, author, image, user_id, deleted_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+DELETE FROM blogs WHERE id = ?
+
+-- admin_event_add.php
+
+INSERT INTO events (title, event_date, location, description, created_by) VALUES (?, ?, ?, ?, ?)
+
+-- admin_event_delete.php
+
+SELECT * FROM events WHERE id = ?
+INSERT INTO deleted_events (event_id, title, event_date, location, description, created_by, deleted_by) VALUES (?, ?, ?, ?, ?, ?, ?)
+DELETE FROM events WHERE id = ?
+
+-- admin_permanently_delete_blog.php
+
+DELETE FROM deleted_blogs WHERE id = ?
+
+-- admin_permanently_delete_event.php
+
+DELETE FROM deleted_events WHERE id = ?
+
+-- admin_permanently_delete_tutorial.php
+
+DELETE FROM deleted_tutorials WHERE id = ?
+
+-- admin_restore_blog.php
+
+SELECT * FROM deleted_blogs WHERE id = ?
+INSERT INTO blogs (title, content, link, author, image, user_id, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())
+DELETE FROM deleted_blogs WHERE id = ?
+
+-- admin_restore_event.php
+
+SELECT * FROM deleted_events WHERE id = ?
+INSERT INTO events (title, event_date, location, description, created_by, created_at) VALUES (?, ?, ?, ?, ?, NOW())
+DELETE FROM deleted_events WHERE id = ?
+
+-- admin_restore_tutorial.php
+
+SELECT * FROM deleted_tutorials WHERE id = ?
+INSERT INTO tutorials (title, description, category, created_by, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)
+DELETE FROM deleted_tutorials WHERE id = ?
+
+-- admin_tutorial_delete.php
+
+SELECT * FROM tutorials WHERE id = ?
+INSERT INTO deleted_tutorials (tutorial_id, title, description, category, created_by, deleted_by, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+DELETE FROM tutorials WHERE id = ?
+
+-- blogs.php
+
+SELECT blogs.*, users.name as user_name FROM blogs LEFT JOIN users ON blogs.user_id = users.id ORDER BY blogs.created_at DESC
+
+-- contact.php
+
+SELECT email FROM users WHERE id = ?
+INSERT INTO contacts (user_id, email, subject, message) VALUES (?, ?, ?, ?)
+
+-- create_admin.php
+
+SELECT id FROM users WHERE email = ?
+UPDATE users SET name=?, password=?, role=? WHERE email=?
+INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)
+
+-- dashboard.php
+
+SELECT * FROM blogs WHERE user_id = ? ORDER BY created_at DESC
+SELECT * FROM tutorials WHERE created_by = ? ORDER BY created_at DESC
+
+-- edit_blog.php
+
+SELECT * FROM blogs WHERE id = ?
+UPDATE blogs SET title = ?, content = ?, updated_at = NOW() WHERE id = ?
+
+-- edit_event.php
+
+SELECT * FROM events WHERE id = ?
+UPDATE events SET title = ?, event_date = ?, location = ?, description = ? WHERE id = ?
+
+-- edit_tutorial.php
+
+SELECT * FROM tutorials WHERE id = ?
+UPDATE tutorials SET title = ?, description = ?, category = ?, updated_at = NOW() WHERE id = ?
+
+-- events.php
+
+SELECT events.*, users.name as creator FROM events LEFT JOIN users ON events.created_by = users.id WHERE {dynamic where clause} ORDER BY event_date ASC
+
+-- login.php
+
+SELECT * FROM users WHERE email = ?
+
+-- register.php
+
+SELECT id FROM users WHERE email = ?
+INSERT INTO users (name, email, password) VALUES (?, ?, ?)
+
+-- tutorials.php
+
+SELECT tutorials.*, users.name as creator FROM tutorials LEFT JOIN users ON tutorials.created_by = users.id WHERE category = ? ORDER BY created_at DESC
+SELECT tutorials.*, users.name as creator FROM tutorials LEFT JOIN users ON tutorials.created_by = users.id ORDER BY created_at DESC
+
+-- tutorials_add.php
+
+INSERT INTO tutorials (title, description, category, created_by) VALUES (?, ?, ?, ?)
+
+-- tutorial_view.php
+
+SELECT tutorials.*, users.name as creator FROM tutorials LEFT JOIN users ON tutorials.created_by = users.id WHERE tutorials.id = ?
+
