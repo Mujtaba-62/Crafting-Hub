@@ -1,0 +1,154 @@
+/* pro-style.css: Professional, modern style system for CraftHub */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8eaf6 100%);
+    color: #23223a;
+}
+
+.navbar {
+    background: #23223a !important;
+    box-shadow: 0 2px 8px rgba(44, 44, 84, 0.07);
+}
+
+.navbar-brand, .navbar-nav .nav-link {
+    color: #fff !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.navbar-nav .nav-link.active, .navbar-nav .nav-link:focus, .navbar-nav .nav-link:hover {
+    color: #6c63ff !important;
+}
+
+.card {
+    border-radius: 1.2rem;
+    box-shadow: 0 4px 24px rgba(44, 44, 84, 0.09);
+    border: none;
+    background: #fff;
+    transition: box-shadow 0.2s;
+}
+.card:hover {
+    box-shadow: 0 8px 32px rgba(44, 44, 84, 0.13);
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #6c63ff 60%, #5548c8 100%);
+    border: none;
+    border-radius: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(108, 99, 255, 0.08);
+}
+.btn-primary:hover, .btn-primary:focus {
+    background: linear-gradient(90deg, #5548c8 60%, #6c63ff 100%);
+    box-shadow: 0 4px 16px rgba(108, 99, 255, 0.13);
+}
+
+.btn-secondary {
+    background: #e8eaf6;
+    color: #23223a;
+    border: none;
+    border-radius: 2rem;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+.btn-secondary:hover, .btn-secondary:focus {
+    background: #d1d9ff;
+    color: #23223a;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #23223a;
+}
+
+input, textarea, select {
+    border-radius: 0.7rem !important;
+    border: 1px solid #e0e0e0 !important;
+    background: #f8f9fa !important;
+    color: #23223a !important;
+}
+input:focus, textarea:focus, select:focus {
+    border-color: #6c63ff !important;
+    box-shadow: 0 0 0 2px #e0e7ff;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 700;
+    color: #23223a;
+    letter-spacing: 0.5px;
+}
+
+.alert {
+    border-radius: 1rem;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.modal-content {
+    border-radius: 1.2rem;
+    box-shadow: 0 8px 32px rgba(44, 44, 84, 0.13);
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* Sidebar (for admin, optional) */
+.admin-sidebar {
+    background: #23223a;
+    min-height: 100vh;
+    color: #fff;
+    padding: 2rem 1rem;
+    border-radius: 1.2rem 0 0 1.2rem;
+    box-shadow: 2px 0 16px rgba(44,44,84,0.07);
+}
+.admin-sidebar .nav-link {
+    color: #fff;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    border-radius: 1.5rem;
+    transition: background 0.2s;
+}
+.admin-sidebar .nav-link.active, .admin-sidebar .nav-link:hover {
+    background: #6c63ff;
+    color: #fff;
+}
+
+/* Avatar circle */
+.avatar {
+    width: 40px;
+    height: 40px;
+    background: #6c63ff;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-right: 0.7rem;
+    box-shadow: 0 2px 8px rgba(108, 99, 255, 0.13);
+}
+
+hr {
+    border-top: 2px solid #e8eaf6;
+    margin: 2rem 0;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    background: #e8eaf6;
+}
+::-webkit-scrollbar-thumb {
+    background: #c5cae9;
+    border-radius: 4px;
+}
